@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { api } from "../api/api";
 
 function Actividades() {
   const [actividadesPorDia, setActividadesPorDia] = useState({});
@@ -20,9 +21,9 @@ function Actividades() {
       if (!usuario) return;
 
       try {
-        const respuesta = await axios.get(
-          `http://localhost:8080/api/actividades?bandaId=${usuario.banda.id}`
-        );
+        
+        const respuesta = await api.get(`/api/actividades?bandaId=${usuario.banda.id}`);
+
         const todas = respuesta.data;
 
         const hoy = new Date();

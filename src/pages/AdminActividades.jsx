@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { api } from "../api/api";
 
 function AdminActividades() {
   const [usuario, setUsuario] = useState(null);
@@ -23,7 +24,7 @@ function AdminActividades() {
 
   const cargarActividades = async (bandaId) => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/actividades?bandaId=${bandaId}`);
+const res = await api.get(`/api/actividades?bandaId=${bandaId}`);
       setActividades(res.data);
     } catch (err) {
       console.error("Error al cargar", err);
@@ -36,7 +37,7 @@ function AdminActividades() {
 
   const crearActividad = async () => {
     try {
-      await axios.post("http://localhost:8080/api/actividades", {
+await api.post("/api/actividades", {
         ...formulario,
         banda: { id: usuario.banda.id },
       });
@@ -49,7 +50,7 @@ function AdminActividades() {
 
   const eliminarActividad = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/actividades/${id}`);
+await api.delete(`/api/actividades/${id}`);
       cargarActividades(usuario.banda.id);
     } catch (err) {
       console.error("Error al eliminar", err);

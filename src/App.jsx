@@ -7,6 +7,7 @@ import VerAsistencia from "./pages/VerAsistencia";
 import { Routes, Route } from "react-router-dom";
 import Asistencia from "./pages/Asistencia";
 import './index.css'; // O la ruta a tu archivo CSS principal
+import { api } from "./api/api"; // ✅
 
 
 function App() {
@@ -16,23 +17,23 @@ const cerrarSesion = () => {
   localStorage.removeItem("usuario");
   window.location.reload(); // Fuerza recarga completa
 };
-  useEffect(() => {
-    const usuarioGuardado = localStorage.getItem("usuario");
-    if (usuarioGuardado) {
-      const usuarioParseado = JSON.parse(usuarioGuardado);
+ useEffect(() => {
+  const usuarioGuardado = localStorage.getItem("usuario");
+  if (usuarioGuardado) {
+    const usuarioParseado = JSON.parse(usuarioGuardado);
 
-      axios
-        .get(`http://localhost:8080/api/usuarios/${usuarioParseado.id}`)
-        .then((res) => {
-          localStorage.setItem("usuario", JSON.stringify(res.data));
-          setUsuario(res.data);
-        })
-        .catch((err) => {
-          console.error("No se pudo cargar el usuario:", err);
-          setUsuario(null);
-        });
-    }
-  }, []);
+    api.get(`/api/usuarios/${usuarioParseado.id}`)
+      .then((res) => {
+        localStorage.setItem("usuario", JSON.stringify(res.data));
+        setUsuario(res.data);
+      })
+      .catch((err) => {
+        console.error("No se pudo cargar el usuario:", err);
+        setUsuario(null);
+      });
+  }
+}, []);
+
 
   if (!usuario) {
     return <Login onLogin={setUsuario} />;

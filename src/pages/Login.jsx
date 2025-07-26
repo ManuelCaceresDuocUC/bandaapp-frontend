@@ -1,16 +1,16 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { api } from "../api/api";
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
     const [password, setPassword] = useState(""); // ✅ ← esta línea faltaba
 
-
- const manejarLogin = async () => {
+const manejarLogin = async () => {
   try {
-    const respuesta = await axios.post("http://localhost:8080/api/usuarios/login", {
+    const respuesta = await api.post("/api/usuarios/login", {
       email: email.trim(),
       password: password.trim()
     });
@@ -20,7 +20,6 @@ function Login({ onLogin }) {
   } catch (err) {
     setError("Email o contraseña incorrectos");
   }
- 
 };
   return (
   <div

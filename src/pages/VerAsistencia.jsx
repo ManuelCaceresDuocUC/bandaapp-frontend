@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { api } from "../api/api"; // ✅ usar cliente configurado
+
 
 function VerAsistencia() {
   const [usuario, setUsuario] = useState(null);
@@ -9,29 +11,29 @@ function VerAsistencia() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const u = localStorage.getItem("usuario");
-    if (u) {
-      const usuarioParseado = JSON.parse(u);
-      setUsuario(usuarioParseado);
+  const u = localStorage.getItem("usuario");
+  if (u) {
+    const usuarioParseado = JSON.parse(u);
+    setUsuario(usuarioParseado);
 
-      const hoy = new Date().toISOString().split("T")[0];
+    const hoy = new Date().toISOString().split("T")[0];
 
-      axios.get(`http://localhost:8080/api/asistencias?fecha=${hoy}&bandaId=${usuarioParseado.banda.id}`)
-        .then(res => {
-          setAsistencias(res.data);
+    api.get(`/api/asistencias?fecha=${hoy}&bandaId=${usuarioParseado.banda.id}`)
+      .then(res => {
+        setAsistencias(res.data);
 
-          const conteo = res.data.reduce((acc, a) => {
-            acc[a.estado] = (acc[a.estado] || 0) + 1;
-            return acc;
-          }, {});
+        const conteo = res.data.reduce((acc, a) => {
+          acc[a.estado] = (acc[a.estado] || 0) + 1;
+          return acc;
+        }, {});
 
-          setTotales(conteo);
-        })
-        .catch(err => {
-          console.error("Error al cargar asistencias", err);
-        });
-    }
-  }, []);
+        setTotales(conteo);
+      })
+      .catch(err => {
+        console.error("Error al cargar asistencias", err);
+      });
+  }
+}, []);
 
   if (!usuario || !["ADMIN", "SECRETARIO"].includes(usuario.rol)) {
     return <p className="p-6">No tienes permiso para ver esta sección.</p>;

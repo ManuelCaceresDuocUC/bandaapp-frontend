@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { api } from "../api/api";
 
 function Asistencia() {
   const [usuario, setUsuario] = useState(null);
@@ -34,7 +35,7 @@ function Asistencia() {
             try {
               const { latitude, longitude } = pos.coords;
               console.log("Ubicación enviada:", latitude, longitude);
-              const res = await axios.post("http://localhost:8080/api/asistencias/registrar", {
+const res = await api.post("/api/asistencias/registrar", {
                 usuarioId: usuario.id,
                 latitud: latitude,
                 longitud: longitude,
@@ -65,7 +66,7 @@ function Asistencia() {
           return;
         }
 
-        await axios.post("http://localhost:8080/api/asistencias", {
+await api.post("/api/asistencias", {
           usuario: { id: usuario.id },
           fecha: new Date().toISOString().split("T")[0],
           estado,
