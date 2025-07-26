@@ -79,20 +79,21 @@ return (
             >
               Ir al Panel de Actividades
             </button>
-            <button
+            
+          </div>
+        )}
+        <button
               onClick={() => navigate("/asistencia")}
               className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
             >
               Ir a Registro de Asistencia
             </button>
-            <button
+        <button
               onClick={() => navigate("/ver-asistencia")}
               className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
             >
               Ver Asistencia del Día
             </button>
-          </div>
-        )}
 
         {/* Título principal */}
         <div className="bg-white shadow-md rounded-lg p-4 text-center">
