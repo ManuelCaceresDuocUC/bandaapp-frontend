@@ -70,12 +70,13 @@ const cerrarSesion = () => {
         </p>
 
         <Routes>
+          <Route path="/asistencia" element={<Asistencia />} />
+           <Route path="/ver-asistencia" element={<VerAsistencia />} />
           <Route path="/" element={<Actividades />} />
           {["ADMIN", "DIRECTOR", "SECRETARIO"].includes(usuario.rol) && (
             <>
               <Route path="/admin" element={<AdminActividades />} />
-              <Route path="/asistencia" element={<Asistencia />} />
-              <Route path="/ver-asistencia" element={<VerAsistencia />} />
+              
               <Route path="/login" element={<Login onLogin={setUsuario} />} />
 
             </>
