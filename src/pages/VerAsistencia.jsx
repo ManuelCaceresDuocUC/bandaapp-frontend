@@ -35,7 +35,7 @@ function VerAsistencia() {
   }
 }, []);
 
-  if (!usuario || !["ADMIN", "SECRETARIO"].includes(usuario.rol)) {
+  if (!usuario || !["ADMIN", "SECRETARIO","MUSICO"].includes(usuario.rol)) {
     return <p className="p-6">No tienes permiso para ver esta sección.</p>;
   }
 
