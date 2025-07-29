@@ -18,7 +18,7 @@ const manejarLogin = async () => {
     localStorage.setItem("usuario", JSON.stringify(usuario));
     onLogin(usuario);
   } catch (err) {
-    setError("Email o contraseña incorrectos");
+    setError("NPI o contraseña incorrectos");
   }
 };
   return (

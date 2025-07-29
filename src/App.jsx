@@ -65,6 +65,7 @@ const cerrarSesion = () => {
   </button>
      </div>
         <p className="text-sm text-center text-gray-700">Rol: {usuario.rol}</p>
+        <p className="text-sm text-center text-gray-700">NPI: {usuario.npi}</p>
         <p className="text-sm text-center text-gray-700 mb-4">
           Banda: {usuario.banda?.nombre}
         </p>
