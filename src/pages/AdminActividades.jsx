@@ -57,9 +57,9 @@ await api.delete(`/api/actividades/${id}`);
     }
   };
 
-  if (!usuario || usuario.rol !== "SECRETARIO") {
-    return <p>No tienes acceso a esta página.</p>;
-  }
+  if (!usuario || !["SECRETARIO", "ADMIN"].includes(usuario.rol)) {
+  return <p>No tienes acceso a esta página.</p>;
+}
 
   return (
     
