@@ -14,13 +14,13 @@ function AdminActividades() {
     fecha: "",
   });
 
-  useEffect(() => {
-    const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
-    if (usuarioGuardado?.rol === "SECRETARIO") {
-      setUsuario(usuarioGuardado);
-      cargarActividades(usuarioGuardado.banda.id);
-    }
-  }, []);
+ useEffect(() => {
+  const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+  if (["SECRETARIO", "ADMIN"].includes(usuarioGuardado?.rol)) {
+    setUsuario(usuarioGuardado);
+    cargarActividades(usuarioGuardado.banda.id);
+  }
+}, []);
 
   const cargarActividades = async (bandaId) => {
     try {
