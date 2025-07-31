@@ -14,7 +14,8 @@ function EditarAsistencia() {
     return;
   }
 
-  // ✅ Incluye el parámetro bandaId en la URL
+  setUsuario(u); // ✅ aquí se guarda el usuario para que se pueda usar luego
+
   axios.get(`/api/asistencias/hoy?bandaId=${u.banda.id}`)
     .then((res) => {
       console.log("Respuesta correcta:", res.data);
@@ -23,8 +24,7 @@ function EditarAsistencia() {
     .catch((err) => {
       console.error("Error al obtener asistencias de hoy:", err);
     });
-}, []);
-
+}, [navigate]);
   const actualizarEstado = (id, nuevoEstado) => {
     axios
       .put(`/api/asistencias/${id}`, { nuevoEstado })
