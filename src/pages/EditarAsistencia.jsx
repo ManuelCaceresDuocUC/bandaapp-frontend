@@ -14,17 +14,18 @@ function EditarAsistencia() {
     return;
   }
 
-  setUsuario(u); // ✅ aquí se guarda el usuario para que se pueda usar luego
+  setUsuario(u); // ✅ Guarda el usuario en estado para usarlo en el renderizado
 
-  axios.get(`/api/asistencias/hoy?bandaId=${u.banda.id}`)
+  axios.get(`https://bandaapp-backend.onrender.com/api/asistencias/hoy?bandaId=${u.banda.id}`)
     .then((res) => {
       console.log("Respuesta correcta:", res.data);
-      setAsistencias(res.data);
+      setAsistencias(res.data); // ✅ Es un array, puedes hacer .map() sobre él
     })
     .catch((err) => {
       console.error("Error al obtener asistencias de hoy:", err);
     });
 }, [navigate]);
+
   const actualizarEstado = (id, nuevoEstado) => {
     axios
       .put(`/api/asistencias/${id}`, { nuevoEstado })
