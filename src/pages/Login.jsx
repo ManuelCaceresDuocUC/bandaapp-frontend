@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../api/api";
 
 function Login({ onLogin }) {
-  const [npi, setNpi] = useState("");
+  const [email, setemail] = useState("");
   const [error, setError] = useState("");
     const [password, setPassword] = useState(""); // ✅ ← esta línea faltaba
 
 const manejarLogin = async () => {
   try {
     const respuesta = await api.post("/api/usuarios/login", {
-      npi: npi.trim(),
+      email: email.trim(),
       password: password.trim()
     });
     const usuario = respuesta.data;
@@ -31,10 +31,11 @@ const manejarLogin = async () => {
         <h1 className="text-2xl font-bold mb-4">Iniciar Sesión</h1>
 
         <input
-          type="npi"
-          placeholder="NPI con guion y n° verificador"
-          value={npi}
-          onChange={(e) => setNpi(e.target.value)}
+          type="email"
+          placeholder="Correo@banda.cl"
+          value={email}
+          onChange={(e) => setemail
+            (e.target.value)}
           className="p-2 rounded border w-full"
           autoComplete="off"
         />
