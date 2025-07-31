@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api/api";
+import { getDeviceId } from "../utils/device";
 
 function Login({ onLogin }) {
   const [email, setemail] = useState("");
@@ -12,13 +13,15 @@ const manejarLogin = async () => {
   try {
     const respuesta = await api.post("/api/usuarios/login", {
       email: email.trim(),
-      password: password.trim()
+      password: password.trim(),
+      deviceId: getDeviceId() // ✅ aquí se envía el ID del dispositivo
     });
+
     const usuario = respuesta.data;
     localStorage.setItem("usuario", JSON.stringify(usuario));
     onLogin(usuario);
   } catch (err) {
-    setError("NPI o contraseña incorrectos");
+    setError("Correo o contraseña incorrectos");
   }
 };
   return (
