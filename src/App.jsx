@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Asistencia from "./pages/Asistencia";
 import './index.css'; // O la ruta a tu archivo CSS principal
 import { api } from "./api/api"; // ✅
+import EditarAsistencia from "./pages/EditarAsistencia";
 
 
 function App() {
@@ -77,6 +78,7 @@ const cerrarSesion = () => {
           {["ADMIN", "DIRECTOR", "SECRETARIO"].includes(usuario.rol) && (
             <>
               <Route path="/admin" element={<AdminActividades />} />
+              <Route path="/estados" element={<EditarAsistencia />} />
               
               <Route path="/login" element={<Login onLogin={setUsuario} />} />
 
