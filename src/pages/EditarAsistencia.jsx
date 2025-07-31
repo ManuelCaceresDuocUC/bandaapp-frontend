@@ -7,22 +7,23 @@ function EditarAsistencia() {
   const [usuario, setUsuario] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const u = JSON.parse(localStorage.getItem("usuario"));
-    if (!u || (u.rol !== "ADMIN" && u.rol !== "SECRETARIO")) {
-      navigate("/no-autorizado");
-    } else {
-      setUsuario(u);
-     axios.get(`/api/asistencias/hoy?bandaId=${u.banda.id}`)
-  .then((res) => {
-    console.log("Respuesta:", res.data); // 👈 Añade esto
-    setAsistencias(res.data);
-  })
-        .catch((err) => {
-          console.error("Error al obtener asistencias", err);
-        });
-    }
-  }, [navigate]);
+ useEffect(() => {
+  const u = JSON.parse(localStorage.getItem("usuario"));
+  if (!u || (u.rol !== "ADMIN" && u.rol !== "SECRETARIO")) {
+    navigate("/no-autorizado");
+    return;
+  }
+
+  // ✅ Incluye el parámetro bandaId en la URL
+  axios.get(`/api/asistencias/hoy?bandaId=${u.banda.id}`)
+    .then((res) => {
+      console.log("Respuesta correcta:", res.data);
+      setAsistencias(res.data);
+    })
+    .catch((err) => {
+      console.error("Error al obtener asistencias de hoy:", err);
+    });
+}, []);
 
   const actualizarEstado = (id, nuevoEstado) => {
     axios
