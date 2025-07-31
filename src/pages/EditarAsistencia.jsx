@@ -27,8 +27,8 @@ function EditarAsistencia() {
 }, [navigate]);
 
   const actualizarEstado = (id, nuevoEstado) => {
-    axios
-      .put(`/api/asistencias/${id}`, { nuevoEstado })
+    
+axios.put(`https://bandaapp-backend.onrender.com/api/asistencias/${id}`, { nuevoEstado })
       .then(() => {
         setAsistencias((prev) =>
           prev.map((a) =>
