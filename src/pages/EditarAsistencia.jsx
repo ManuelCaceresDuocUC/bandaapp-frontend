@@ -13,11 +13,11 @@ function EditarAsistencia() {
       navigate("/no-autorizado");
     } else {
       setUsuario(u);
-      axios
-        .get(`/api/asistencias/hoy?bandaId=${u.banda.id}`)
-        .then((res) => {
-          setAsistencias(res.data);
-        })
+     axios.get(`/api/asistencias/hoy?bandaId=${u.banda.id}`)
+  .then((res) => {
+    console.log("Respuesta:", res.data); // 👈 Añade esto
+    setAsistencias(res.data);
+  })
         .catch((err) => {
           console.error("Error al obtener asistencias", err);
         });
