@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function EditarAsistencia() {
   const [asistencias, setAsistencias] = useState([]);
+  const [usuario, setUsuario] = useState(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    axios.get("/api/asistencias/hoy").then((res) => {
-      setAsistencias(res.data);
-    });
-  }, []);
 
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem("usuario"));
     if (!u || (u.rol !== "ADMIN" && u.rol !== "SECRETARIO")) {
       navigate("/no-autorizado");
+    } else {
+      setUsuario(u);
+      axios
+        .get(`/api/asistencias/hoy?bandaId=${u.banda.id}`)
+        .then((res) => {
+          setAsistencias(res.data);
+        })
+        .catch((err) => {
+          console.error("Error al obtener asistencias", err);
+        });
     }
   }, [navigate]);
 
@@ -31,6 +36,8 @@ function EditarAsistencia() {
       });
   };
 
+  if (!usuario) return null;
+
   return (
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat"
@@ -44,11 +51,13 @@ function EditarAsistencia() {
           Volver al Planner
         </button>
 
-        <h2 className="text-2xl font-bold mb-6">Modificar Estado de Asistencia</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          Modificar asistencia - {usuario.banda.nombre}
+        </h2>
 
         <table className="min-w-full bg-white border text-sm">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="bg-gray-100">
               <th className="border px-4 py-2">Nombre</th>
               <th className="border px-4 py-2">Estado actual</th>
               <th className="border px-4 py-2">Modificar</th>
@@ -57,20 +66,21 @@ function EditarAsistencia() {
           <tbody>
             {asistencias.map((a) => (
               <tr key={a.id}>
-                <td className="border px-4 py-2">{a.usuario.nombre}</td>
+                <td className="border px-4 py-2">
+                  {a.usuario?.nombre || a.nombre}
+                </td>
                 <td className="border px-4 py-2">{a.estado}</td>
                 <td className="border px-4 py-2">
                   <select
                     value={a.estado}
                     onChange={(e) => actualizarEstado(a.id, e.target.value)}
-                    className="border rounded p-1"
+                    className="border p-1 rounded"
                   >
                     <option value="A BORDO">A BORDO</option>
                     <option value="PERMISO">PERMISO</option>
                     <option value="CATEGORIA">CATEGORIA</option>
-                    <option value="AUTORIZADO">LICENCIA</option>
-                    <option value="COMISION">INASISTENCIA</option>
-                    {/* Puedes agregar más si es necesario */}
+                    <option value="INASISTENCIA">INASISTENCIA</option>
+                    <option value="LICENCIA">LICENCIA</option>
                   </select>
                 </td>
               </tr>
